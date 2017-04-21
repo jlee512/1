@@ -1,3 +1,5 @@
+import com.sun.corba.se.impl.orbutil.graph.Graph;
+
 /**
  * Created by jlee512 on 21/04/2017.
  */
@@ -27,6 +29,14 @@ public class Person {
 
     public int getY() {
         return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void setX(int x) {
@@ -79,13 +89,6 @@ public class Person {
     public static void main(String[] args) {
         //Person mid point calculation works
         Person guy = new Person();
-        int midX = guy.getMidX();
-        System.out.println(midX);
-        int midY = guy.getMidY();
-        System.out.println(midY);
-
-        //Initialise jump works
-        System.out.println(guy.initialiseJump(10, 50, 800));
 
         //Test jump to apex
         for (int i = 0; i < 10; i++) {
@@ -93,8 +96,11 @@ public class Person {
             System.out.println("Jump completed, positions:");
             System.out.println(guy.getMidX());
             System.out.println(guy.getMidY());
+            System.out.println(guy.initialiseJump(10, 50,780));
         }
-        //Check initialise jump on second platform
-        System.out.println(guy.initialiseJump(10, 50, 780));
+    }
+
+    public void paint (GraphicsPainter paint){
+        paint.drawRect(this.getX(), this.getY(),this.getWidth(), this.getHeight());
     }
 }
