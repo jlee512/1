@@ -53,87 +53,34 @@ public class Plateform {
     }
 
     public Plateform spawn (Plateform other){
-//        return new Plateform(10, randomHeight(other));
-        return new Plateform(setRandomXAxis(), randomHeight(other));
+        return new Plateform(10, randomHeight(other));
+//        return new Plateform(setRandomXAxis(), randomHeight(other));
     }
     public int getReferenceNum(){
         return referenceNum;
     }
 
-     public static int[] AllYAxis(){
-         System.out.println("Number of plateform for testing.");
-        int numberOfPlate = Integer.parseInt(Keyboard.readInput())-1;
-         List<Plateform> list_of_platforms =new ArrayList<>();
-         Plateform a = new Plateform();
-         list_of_platforms.add(a);
-//         System.out.println("X: " + a.getX());
-//         System.out.println("Y: " + a.getY());
-//         System.out.println();
-         for (int i = 0; i < numberOfPlate; i++) {
-             Plateform temp = list_of_platforms.get(i);
-             Plateform b = temp.spawn(list_of_platforms.get(temp.getReferenceNum()));
-             list_of_platforms.add(b);
-//             System.out.println("X: " + b.getX());
-//             System.out.println("Y: " + b.getY());
-//             System.out.println();
-             // can alter this function to gain the the arraylist for the x and y axis by using get(i).getY() / get(i).getX();
-         }
-         int[] allYAixs = new int[numberOfPlate+1];
-         for (int i = 0; i < numberOfPlate+1; i++) {
-             allYAixs[i] = 800- list_of_platforms.get(i).getY();
-//             System.out.println(allYAixs[i]);
-         }
-         return allYAixs;
-     }
-    public static int[] AllXAxis(){
+    public static List<Plateform> AllXAxis(){
         System.out.println("Number of plateform for testing.");
         int numberOfPlate = Integer.parseInt(Keyboard.readInput())-1;
         List<Plateform> list_of_platforms =new ArrayList<>();
         Plateform a = new Plateform();
         list_of_platforms.add(a);
-//        System.out.println("X: " + a.getX());
-//        System.out.println("Y: " + a.getY());
-//        System.out.println();
-        for (int i = 0; i < numberOfPlate; i++) {
+
+        for (int i = 0; i < numberOfPlate+1; i++) {
             Plateform temp = list_of_platforms.get(i);
             Plateform b = temp.spawn(list_of_platforms.get(temp.getReferenceNum()));
             list_of_platforms.add(b);
-//            System.out.println("X: " + b.getX());
-//            System.out.println("Y: " + b.getY());
-//            System.out.println();
+            System.out.println("X :"+ i+ " " + list_of_platforms.get(i).getX());
+            System.out.println("Y :"+ i +" " +list_of_platforms.get(i).getY());
             // can alter this function to gain the the arraylist for the x and y axis by using get(i).getY() / get(i).getX();
         }
-        int[] allXAixs = new int[numberOfPlate+1];
-        for (int i = 0; i < numberOfPlate+1; i++) {
-            allXAixs[i] = 10;
-//            allXAixs[i] = list_of_platforms.get(i).getX();
-//            System.out.println(allXAixs[i]);
-        }
-        return allXAixs;
+        return list_of_platforms;
     }
 
 
 
     public static void main(String[] args) {
         System.out.println(AllXAxis());
-//        List<Plateform> list_of_platforms =new ArrayList<>();
-//        Plateform a = new Plateform();
-//        list_of_platforms.add(a);
-////        Plateform b = a.spawn(list_of_platforms.get(a.getReferenceNum()));
-////        System.out.println(b.getReferenceNum());
-////        list_of_platforms.add(b);
-////        Plateform c = b.spawn(list_of_platforms.get(b.getReferenceNum()));
-////        list_of_platforms.add(c);
-//        System.out.println("X: " + a.getX());
-//        System.out.println("Y: " + a.getY());
-//        System.out.println();
-//        for (int i = 0; i < 9; i++) {
-//            Plateform temp = list_of_platforms.get(i);
-//            Plateform b = temp.spawn(list_of_platforms.get(temp.getReferenceNum()));
-//            list_of_platforms.add(b);
-//            System.out.println("X: " + b.getX());
-//            System.out.println("Y: " + b.getY());
-//            System.out.println();
-//        }
     }
 }
