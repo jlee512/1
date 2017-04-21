@@ -48,15 +48,20 @@ public class Plateform {
     public int randomHeight (Plateform other){
         return this.minSpwanheight(other) + ((int) (Math.random()*(this.maxSpawnheight(other)-this.minSpwanheight(other))));
     }
+    public int setRandomXAxis (){
+        return (int)(Math.random()*370);
+    }
 
     public Plateform spawn (Plateform other){
-        return new Plateform(10, randomHeight(other));
+//        return new Plateform(10, randomHeight(other));
+        return new Plateform(setRandomXAxis(), randomHeight(other));
     }
     public int getReferenceNum(){
         return referenceNum;
     }
 
      public static int[] AllYAxis(){
+         System.out.println("Number of plateform for testing.");
         int numberOfPlate = Integer.parseInt(Keyboard.readInput())-1;
          List<Plateform> list_of_platforms =new ArrayList<>();
          Plateform a = new Plateform();
@@ -71,6 +76,7 @@ public class Plateform {
              System.out.println("X: " + b.getX());
              System.out.println("Y: " + b.getY());
              System.out.println();
+             // can alter this function to gain the the arraylist for the x and y axis by using get(i).getY() / get(i).getX();
          }
          int[] allYAixs = new int[numberOfPlate+1];
          for (int i = 0; i < numberOfPlate+1; i++) {
