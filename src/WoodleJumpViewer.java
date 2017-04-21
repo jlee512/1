@@ -61,6 +61,7 @@ public class WoodleJumpViewer extends JPanel implements ActionListener {
                 System.out.println(person.getMidY());
                 person.jump(platformX, platformX + 40, platformY);
                 repaint();
+                
             }
         }
     }
