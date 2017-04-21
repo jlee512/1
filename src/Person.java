@@ -55,6 +55,14 @@ public class Person {
         return (y + height);
     }
 
+    public int getDeltaX() {
+        return deltaX;
+    }
+
+    public int getDeltaY() {
+        return deltaY;
+    }
+
     public boolean initialiseJump (int platformX1, int platformX2, int platformTopY) {
         if ((getMidX() >= platformX1 && getMidX() <= platformX2) && (getMidY() == platformTopY) && (deltaY <= 0)) {
             return true;
@@ -100,7 +108,7 @@ public class Person {
         }
     }
 
-    public void paint (GraphicsPainter paint){
-        paint.drawRect(this.getX(), this.getY(),this.getWidth(), this.getHeight());
+    public void paint (GraphicsPainter painter){
+        painter.drawRect(this.getX(), this.getY(),this.getWidth(), this.getHeight());
     }
 }

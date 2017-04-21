@@ -46,16 +46,21 @@ public class WoodleJumpViewer extends JPanel implements ActionListener {
         int height = getHeight();
 
         //Get person to do first jump automatically
+
         person.jump(0, 400,800);
         platformID ++;
+        repaint();
 
         //Loop through array of platforms
         for (int platformID = 0; platformID < platforms.size(); platformID++) {
-            int platformY = platforms.get(platformID).getY();
+            int platformY = 800 - platforms.get(platformID).getY();
             int platformX = platforms.get(platformID).getX();
-            while (person.initialiseJump(platformX, platformX + 40, platformY)) {
+            while (!person.initialiseJump(platformX, platformX + 40, platformY)) {
+                System.out.println(person.getDeltaY());
+                System.out.println(!person.initialiseJump(platformX, platformX + 40, platformY));
+                System.out.println(person.getMidY());
                 person.jump(platformX, platformX + 40, platformY);
-                System.out.println(platformID);
+                repaint();
             }
         }
     }
@@ -64,13 +69,7 @@ public class WoodleJumpViewer extends JPanel implements ActionListener {
         SwingUtilities.invokeLater(new Runnable(){
             @Override
             public void run(){
-                JFrame frame = new JFrame("Woodle Blast Game");
-                frame.add(new WoodleJumpViewer());
-
-                // Set window properties.
-                frame.setSize(400, 800);
-                frame.setVisible(true);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                WoodleJumpFrame frame = new WoodleJumpFrame();
             }
         });
     }
