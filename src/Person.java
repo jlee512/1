@@ -12,6 +12,10 @@ public class Person {
     //Set deltaX to zero initially for testing simplicity
     private int deltaX = 0;
     private int deltaY = 0;
+    private boolean stillRising = true;
+    private boolean onNextPlatform = false;
+
+    //Constants
     public static final int INITIAL_DELTA_Y = 20;
     public static final int JUMP_HEIGHT = 60;
     public static final int GRAVITY = 4;
@@ -63,11 +67,54 @@ public class Person {
         return deltaY;
     }
 
-    public boolean initialiseJump (int platformX1, int platformX2, int platformTopY) {
-        if ((getMidX() >= platformX1 && getMidX() <= platformX2) && (getMidY() == platformTopY) && (deltaY <= 0)) {
+    public boolean alignedWithPlatform(int platformX1, int platformX2){
+        if(getMidX() >= platformX1 && getMidX() <= platformX2){
             return true;
         }
         return false;
+    }
+
+    //The initialise jump function sets the initial speed when the person has fallen on top of a platform
+    public void initialiseJumpSpeed () {
+        //set speed to the initial speed
+        deltaY = INITIAL_DELTA_Y;
+        deltaX = 0;
+    }
+
+//    public boolean jumpRise(){
+//        //Calculate next position and set next position
+//        int nextX = x - deltaX;
+//        int nextY = y - deltaY;
+//        setY(nextY);
+//        setX(nextX);
+//
+//        //Reduce Y-speed by gravity function, alter X-speed accordingly (to be confirmed at later stage)
+//        deltaY -= GRAVITY;
+//        deltaX -= 0;
+//
+//        //Return if person is still rising as a boolean
+//        if(deltaY <= 0){
+//          return false;
+//        }
+//        return true;
+//    }
+
+    public boolean jumpMove(int platformX1, int platformX2, int platformTopY){
+        //Calculate next position and set next position
+        int nextX = x - deltaX;
+        int nextY = y - deltaY;
+        //Check if falling and
+
+
+        setY(nextY);
+        setX(nextX);
+
+        //Reduce Y-speed by gravity function, alter X-speed accordingly (to be confirmed at later stage)
+        deltaY -= GRAVITY;
+        deltaX -= 0;
+
+        //Return if person is on top of next platform
+        if(get)
     }
 
     public void jump (int platformX1, int platformX2, int platformTopY){
@@ -83,11 +130,7 @@ public class Person {
         }
 
         //Calculate next position at time click
-        int nextX = x - deltaX;
-        int nextY = y - deltaY;
-        if(nextY > platformTopY){
-            nextY = platformTopY;
-        }
+
 
         //Set position for next time click
         setX(nextX);
