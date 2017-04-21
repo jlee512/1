@@ -74,7 +74,7 @@ public class Plateform {
          }
          int[] allYAixs = new int[numberOfPlate+1];
          for (int i = 0; i < numberOfPlate+1; i++) {
-             allYAixs[i] = list_of_platforms.get(i).getY();
+             allYAixs[i] = 800- list_of_platforms.get(i).getY();
              System.out.println(allYAixs[i]);
          }
          return allYAixs;
