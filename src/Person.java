@@ -119,9 +119,9 @@ public class Person {
         //Person mid point calculation works
         Person guy = new Person();
         //more than max jump at first from 785 to 720 = 65;
-//        int[] plates = {720, 685, 640, 620};
+        int[] plates = {720, 685, 640, 620};
         //less than max jump at first from 785 to 730 = 55;
-        int[] plates = {750, 700, 655, 620};
+//        int[] plates = {750, 700, 655, 620};
         for (int plate : plates) {
             if (!guy.jump(guy.getMidY(), plate)){
                 break;

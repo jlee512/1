@@ -46,7 +46,7 @@ public class Plateform {
         return (referenceNum);
     }
     public int randomHeight (Plateform other){
-        return 800- this.minSpwanheight(other) + ((int) (Math.random()*(this.maxSpawnheight(other)-this.minSpwanheight(other))));
+        return this.minSpwanheight(other) + ((int) (Math.random()*(this.maxSpawnheight(other)-this.minSpwanheight(other))));
     }
     public int setRandomXAxis (){
         return (int)(Math.random()*370);
