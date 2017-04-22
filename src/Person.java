@@ -77,20 +77,20 @@ public class Person {
     public boolean jump (int startingPoint, int platefromY){
         System.out.println("Speed " + deltaY);
 
-        if(deltaY <= 0 && this.getY() <= platefromY){
+        if(deltaY <= 0 && this.getMidY() <= platefromY){
             return falling(platefromY);
         }
         else if (deltaY <= 0 && !(this.getY() <= platefromY)){
-            System.out.println("Fall jump can't reach at the end needed " + (this.getY() - platefromY));
+            System.out.println("Fall jump can't reach at the end needed " + (this.getMidY() - platefromY));
             return false;
         }
         if(startingPoint == this.getMidY()){
             deltaY = INITIAL_DELTA_Y;
-            setY(this.y - deltaY);
-            System.out.println(this.y + " Rising");
+            setY(this.getMidY() - deltaY);
+            System.out.println(this.getMidY()+ " Rising");
         }
         setY(this.y - deltaY);
-        System.out.println(this.y + " Rising");
+        System.out.println(this.getMidY() + " Rising");
         deltaY -= GRAVITY;
         return jump(startingPoint, platefromY);
     }
@@ -98,19 +98,18 @@ public class Person {
     public boolean falling(int platefromY){
         deltaY -= GRAVITY;
         System.out.println("Speed " + deltaY);
-        System.out.println("Estimate Y " + (this.y - deltaY));
-        setY(this.y - deltaY);
-        System.out.println(this.y+ " Dropping");
+        System.out.println("Estimate Y " + (this.getMidY() - deltaY));
+        setY(this.getMidY() - deltaY);
+        System.out.println(this.getMidY()+ " Dropping");
         if (this.y >= platefromY){
-            System.out.println("Speed " + deltaY);
-            System.out.println("Estimate Y " + (this.y - deltaY));
+            System.out.println("Estimate Y to finishing " + (this.getMidY() - deltaY));
             setY(platefromY);
-            System.out.println("Current Y " + this.y);
+            System.out.println("Current Y " + this.getMidY());
             System.out.println("Success? Clear");
             deltaY = INITIAL_DELTA_Y;
             return true;
         }
-        System.out.println("not clear yet still have"+ (this.y- platefromY));
+        System.out.println("not clear yet still have "+ (this.getMidY()- platefromY));
         return falling(platefromY);
     }
 
@@ -122,9 +121,9 @@ public class Person {
         //more than max jump at first from 785 to 720 = 65;
 //        int[] plates = {720, 685, 640, 620};
         //less than max jump at first from 785 to 730 = 55;
-        int[] plates = {730, 685, 640, 620};
+        int[] plates = {750, 700, 655, 620};
         for (int plate : plates) {
-            if (!guy.jump(guy.getY(), plate)){
+            if (!guy.jump(guy.getMidY(), plate)){
                 break;
             }
             else{
