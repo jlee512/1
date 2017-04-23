@@ -35,6 +35,14 @@ public class Plateform {
         return y;
     }
 
+    public int getLength() {
+        return length;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public int maxSpawnheight(Plateform other){
         return other.getY() + 50;
     }
@@ -53,7 +61,7 @@ public class Plateform {
     }
 
     public Plateform spawn (Plateform other){
-        return new Plateform(10, randomHeight(other));
+        return new Plateform(10, 800 - randomHeight(other));
 //        return new Plateform(setRandomXAxis(), randomHeight(other));
     }
     public int getReferenceNum(){
@@ -78,6 +86,11 @@ public class Plateform {
         return list_of_platforms;
     }
 
+    public static void paint (GraphicsPainter painter, List<Plateform> list_of_platforms){
+        for (Plateform platform: list_of_platforms) {
+            painter.fillRect(platform.getX(), platform.getY(), platform.getLength(), platform.getHeight());
+        }
+    }
 
 
     public static void main(String[] args) {
