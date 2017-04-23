@@ -5,12 +5,14 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 
-public class WoodleJumpViewer extends JPanel implements ActionListener {
+public class WoodleJumpViewer extends JPanel implements ActionListener, KeyListener {
     //frequency in milliseconds to generate Action events
     private final int TIME_STEP = 20;
 
@@ -22,9 +24,11 @@ public class WoodleJumpViewer extends JPanel implements ActionListener {
 
     private int platformID;
 
+    private boolean lose = false;
+
     public WoodleJumpViewer() {
 
-        platformID = 0;
+        platformID = 1;
 
         person = new Person();
 
@@ -37,6 +41,7 @@ public class WoodleJumpViewer extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         GraphicsPainter painter = new GraphicsPainter(g);
+        Plateform.paint(painter, platforms);
         person.paint(painter);
     }
 
@@ -48,13 +53,28 @@ public class WoodleJumpViewer extends JPanel implements ActionListener {
 
         //
         if (person.isRising()) {
-            person.jumpRise(800 - platforms.get(platformID).getY());
+            person.jumpRise(platforms.get(platformID).getY());
         } else if (!person.isRising()) {
-            person.jumpFall(800 - platforms.get(platformID).getY());
+            if (!person.isReducePlatformID()) {
+                person.jumpFall(platforms.get(platformID).getY(), platforms.get(platformID).getX());
+            }
+            else if (person.isReducePlatformID() && platformID > 0) {
+                platformID--;
+                person.setReducePlatformID(false);
+                System.out.println("Platform Id: " + platformID);
+            }
+            if (person.isOnBottom()) {
+                System.out.println("You lose, you have fallen to the bottom");
+                lose = true;
+                System.out.println(lose);
+                timer.stop();
+            }
         }
-        repaint();
-        if(person.isOnNextPlatform()) {
+
+    repaint();
+        if(person.isOnNextPlatform() && !(person.isReducePlatformID())) {
             platformID++;
+            System.out.println("Platform Id: " + platformID);
         }
     }
 
@@ -66,5 +86,20 @@ public class WoodleJumpViewer extends JPanel implements ActionListener {
                 frame.setVisible(true);
             }
         });
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
