@@ -12,7 +12,7 @@ public class Person {
     private int y;
     private int i =0;
     //Set deltaX to zero initially for testing simplicity
-    private int deltaX = 1;
+    private int deltaX = 0;
     private int deltaY = INITIAL_DELTA_Y;
     private boolean rising = true;
     private boolean onNextPlatform = false;
