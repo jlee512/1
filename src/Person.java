@@ -1,4 +1,5 @@
 import com.sun.corba.se.impl.orbutil.graph.Graph;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 /**
  * Created by jlee512 on 21/04/2017.
@@ -9,11 +10,14 @@ public class Person {
     private int height;
     private int x;
     private int y;
+    private int i =0;
     //Set deltaX to zero initially for testing simplicity
     private int deltaX = 0;
-    private int deltaY = 0;
-    private boolean stillRising = true;
+    private int deltaY = INITIAL_DELTA_Y;
+    private boolean rising = true;
     private boolean onNextPlatform = false;
+    private boolean reducePlatformID = false;
+    private boolean onBottom = false;
 
     //Constants
     public static final int INITIAL_DELTA_Y = 20;
@@ -67,91 +71,131 @@ public class Person {
         return deltaY;
     }
 
-    public boolean alignedWithPlatform(int platformX1, int platformX2){
-        if(getMidX() >= platformX1 && getMidX() <= platformX2){
+    public boolean isOnBottom() {
+        return onBottom;
+    }
+
+    public boolean isRising() {
+        return rising;
+    }
+
+    public boolean isOnNextPlatform() {
+        return onNextPlatform;
+    }
+
+    public boolean isReducePlatformID() {
+        return reducePlatformID;
+    }
+
+    public void setReducePlatformID(boolean reducePlatformID) {
+        this.reducePlatformID = reducePlatformID;
+    }
+
+    public boolean jumpRise (int platefromY){
+        //This method is run at each time step of the WoodleJumpViewer
+
+        //Printout speed when jump function called
+        System.out.println("Speed " + deltaY);
+        onNextPlatform = false;
+
+        //Setup descriptive local variables to clarify inner workins of jump method
+        boolean falling = deltaY <= 0;
+
+        //If falling, check whether fall has potential to land on platform (if so, switch to fall function and call from viewer)
+        if(falling){
+            rising = false;
+            return false;
+        }
+        
+        //If the person is rising but is not initialising a new jump, return true to maintain rising sequence
+        setY(this.y - deltaY);
+        setX(this.x + deltaX);
+        System.out.println("Now at " + this.getMidY() + " and rising");
+        deltaY -= GRAVITY;
+
+        return true;
+    }
+
+    public boolean jumpFall(int plateformY, int platformX){
+        //Reduce speed by gravity function and print initial speed
+        System.out.println("Speed " + deltaY);
+
+        //Setup descriptive local variables to clarify inner workins of jump method
+        reducePlatformID = false;
+        boolean atPlatformLevel = (this.getMidY() == plateformY);
+        boolean withinPlatformWidth = (this.getMidX() >= platformX) && (this.getMidX() <= (platformX + 40));
+        boolean nextBelowPlatform = (this.getMidY() - deltaY) > plateformY;
+        boolean nextOnBottom = (this.getMidY() - deltaY) >= 800;
+        boolean nextXWithinPlatform = ((this.getMidX() + deltaX) >= platformX) && ((this.getMidX() + deltaX) <= platformX + 40);
+        boolean abovePlatform = this.getMidY() < plateformY;
+        onBottom = this.getMidY() >= 800;
+
+
+        if (nextBelowPlatform && nextXWithinPlatform){
+            System.out.println("Platform has potential to hit on next time step. Adjust speed to hit platform on next step");
+            deltaY = this.getMidY() - plateformY;
+            setY(this.y - deltaY);
+            setX(this.x + deltaX);
+            System.out.println(this.getMidY());
             return true;
         }
-        return false;
-    }
-
-    //The initialise jump function sets the initial speed when the person has fallen on top of a platform
-    public void initialiseJumpSpeed () {
-        //set speed to the initial speed
-        deltaY = INITIAL_DELTA_Y;
-        deltaX = 0;
-    }
-
-//    public boolean jumpRise(){
-//        //Calculate next position and set next position
-//        int nextX = x - deltaX;
-//        int nextY = y - deltaY;
-//        setY(nextY);
-//        setX(nextX);
-//
-//        //Reduce Y-speed by gravity function, alter X-speed accordingly (to be confirmed at later stage)
-//        deltaY -= GRAVITY;
-//        deltaX -= 0;
-//
-//        //Return if person is still rising as a boolean
-//        if(deltaY <= 0){
-//          return false;
-//        }
-//        return true;
-//    }
-
-    public boolean jumpMove(int platformX1, int platformX2, int platformTopY){
-        //Calculate next position and set next position
-        int nextX = x - deltaX;
-        int nextY = y - deltaY;
-        //Check if falling and
-
-
-        setY(nextY);
-        setX(nextX);
-
-        //Reduce Y-speed by gravity function, alter X-speed accordingly (to be confirmed at later stage)
-        deltaY -= GRAVITY;
-        deltaX -= 0;
-
-        //Return if person is on top of next platform
-        if(get)
-    }
-
-    public void jump (int platformX1, int platformX2, int platformTopY){
-        //Set speed at time click
-        if(initialiseJump(platformX1, platformX2, platformTopY)){
-            //If beginning to jump set initial speed to 20
-            deltaY = INITIAL_DELTA_Y;
+        //If fall will not reach this platform, return false to signal the jump will not land on the subject platform
+        else if (!(abovePlatform) && onBottom){
+            System.out.println("Person has fallen to the bottom ");
+            this.setY(785);
+            deltaY=0;
             deltaX = 0;
-        } else {
-            //Set to reduced speed
-            deltaY -= GRAVITY;
-            deltaX = 0;
+            return false;
+        }
+        else if(nextOnBottom){
+            System.out.println("Bottom will be hit on next time step");
+            deltaY = this.getMidY() - 800;
+            setY(this.y - deltaY);
+            setX(this.x + deltaX);
+            return true;
+        }
+        //If fall method called when on platform return false to switch back to rising
+        else if (atPlatformLevel){
+            if (withinPlatformWidth) {
+                System.out.println("Platform hit! MidY at: " + this.getMidY());
+                rising = true;
+                onNextPlatform = true;
+                deltaY = INITIAL_DELTA_Y;
+                return false;
+            }
+            System.out.println("At platform level but outside of platform width, at: " + getMidX() + " , reduce platform ID");
+            reducePlatformID = true;
         }
 
-        //Calculate next position at time click
+        //Otherwise continue fall method as usual
+        System.out.println("Still falling...");
+        setY(this.y - deltaY);
+        setX(this.x + deltaX);
+        System.out.println("Now at: " + getMidY() + " and falling");
+        deltaY -= GRAVITY;
+        return true;
+    }
 
-
-        //Set position for next time click
-        setX(nextX);
-        setY(nextY);
+    public void paint (GraphicsPainter painter){
+        painter.fillRect(this.getX(), this.getY(),this.getWidth(), this.getHeight());
     }
 
     public static void main(String[] args) {
         //Person mid point calculation works
         Person guy = new Person();
+        //more than max jump at first from 785 to 720 = 65;
+        //int[] plates = {720, 685, 640, 620};
+        //less than max jump at first from 785 to 730 = 55;
+        int[] plates = {750, 700, 655, 620, 10, 10 ,10 ,10};
+        for (int i = 0; i < plates.length; i++) {
+            while(guy.jumpRise(plates[i])){
+                guy.jumpRise(plates[i]);
+            }
+            while(guy.jumpFall(plates[i], plates[i + 4])){
+                guy.jumpFall(plates[i], plates[i + 4]);
+            }
+        }
 
         //Test jump to apex
-        for (int i = 0; i < 10; i++) {
-            guy.jump(10, 50, 800);
-            System.out.println("Jump completed, positions:");
-            System.out.println(guy.getMidX());
-            System.out.println(guy.getMidY());
-            System.out.println(guy.initialiseJump(10, 50,780));
-        }
-    }
-
-    public void paint (GraphicsPainter painter){
-        painter.drawRect(this.getX(), this.getY(),this.getWidth(), this.getHeight());
     }
 }

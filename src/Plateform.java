@@ -6,7 +6,7 @@ import java.util.List;
  */
 public class Plateform {
     private final int length = 40;
-    private final int height = 10;
+    private final int height = 5;
     private int x;
     private int y;
     private static int reference = 0;
@@ -15,7 +15,7 @@ public class Plateform {
 
     public Plateform(){
         this.x = 10;
-        this.y = 20;
+        this.y = 800;
         this.referenceNum = reference;
         reference++;
     }
@@ -35,19 +35,30 @@ public class Plateform {
         return y;
     }
 
+    public int getLength() {
+        return length;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public int maxSpawnheight(Plateform other){
-        return other.getY() + 50;
+        return other.getY() - 50;
     }
 
     public int minSpwanheight(Plateform other){
-        return other.getY() + 10;
+        return other.getY() - 10;
     }
+
     public int referencingPlateform (){
         return (referenceNum);
     }
+
     public int randomHeight (Plateform other){
-        return 800- this.minSpwanheight(other) + ((int) (Math.random()*(this.maxSpawnheight(other)-this.minSpwanheight(other))));
+        return this.minSpwanheight(other) - ((int) (Math.random()*(this.minSpwanheight(other) - this.maxSpawnheight(other))));
     }
+
     public int setRandomXAxis (){
         return (int)(Math.random()*370);
     }
@@ -78,6 +89,11 @@ public class Plateform {
         return list_of_platforms;
     }
 
+    public static void paint (GraphicsPainter painter, List<Plateform> list_of_platforms){
+        for (Plateform platform: list_of_platforms) {
+            painter.drawRect(platform.getX(), platform.getY(), platform.getLength(), platform.getHeight());
+        }
+    }
 
 
     public static void main(String[] args) {
