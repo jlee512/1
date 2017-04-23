@@ -12,7 +12,7 @@ public class Person {
     private int y;
     private int i =0;
     //Set deltaX to zero initially for testing simplicity
-    private int deltaX = 0;
+    private int deltaX = 1;
     private int deltaY = INITIAL_DELTA_Y;
     private boolean rising = true;
     private boolean onNextPlatform = false;
@@ -20,7 +20,7 @@ public class Person {
     private boolean onBottom = false;
 
     //Constants
-    public static final int INITIAL_DELTA_Y = 35;
+    public static final int INITIAL_DELTA_Y = 20;
     public static final int JUMP_HEIGHT = 60;
     public static final int GRAVITY = 4;
 
