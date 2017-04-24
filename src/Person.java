@@ -27,7 +27,7 @@ public class Person {
     public Person() {
         this.width = 10;
         this.height = 15;
-        this.x = 25;
+        this.x = 195;
         this.y = 785;
     }
 
@@ -53,6 +53,10 @@ public class Person {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void setDeltaX(int deltaX) {
+        this.deltaX = deltaX;
     }
 
     public int getMidX() {

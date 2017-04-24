@@ -16,7 +16,7 @@ public class WoodleJumpViewer extends JPanel implements ActionListener, KeyListe
     //frequency in milliseconds to generate Action events
     private final int TIME_STEP = 20;
 
-    private Timer timer = new Timer(50, this);
+    private Timer timer = new Timer(400, this);
 
     private List<Plateform> platforms;
 
