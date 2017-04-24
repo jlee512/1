@@ -87,6 +87,8 @@ public class Person {
         return onNextPlatform;
     }
 
+
+
     public boolean isReducePlatformID() {
         return reducePlatformID;
     }
@@ -120,11 +122,12 @@ public class Person {
         return true;
     }
 
+    //JUMP FALL FUNCTION
     public boolean jumpFall(int plateformY, int platformX){
         //Reduce speed by gravity function and print initial speed
         System.out.println("Speed " + deltaY);
 
-        //Setup descriptive local variables to clarify inner workins of jump method
+        //Setup descriptive local variables to clarify inner workings of jump method
         reducePlatformID = false;
         boolean atPlatformLevel = (this.getMidY() == plateformY);
         boolean withinPlatformWidth = (this.getMidX() >= platformX) && (this.getMidX() <= (platformX + 40));
@@ -166,9 +169,11 @@ public class Person {
                 onNextPlatform = true;
                 deltaY = INITIAL_DELTA_Y;
                 return false;
+            } else {
+                System.out.println("At platform level but outside of platform width, at: " + getMidX() + " , reduce platform ID");
+                reducePlatformID = true;
+                return true;
             }
-            System.out.println("At platform level but outside of platform width, at: " + getMidX() + " , reduce platform ID");
-            reducePlatformID = true;
         }
 
         //Otherwise continue fall method as usual
