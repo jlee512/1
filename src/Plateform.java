@@ -5,7 +5,7 @@ import java.util.List;
  * Created by ljam763 on 21/04/2017.
  */
 public class Plateform {
-    private final int length = 40;
+    private final int length =(int) ((Math.random() * 50) + 30);
     private final int height = 5;
     private int x;
     private int y;
@@ -14,11 +14,11 @@ public class Plateform {
 
 
     public Plateform(){
-        this.x = 10;
+        this.x = 200 - this.length/2;
         this.y = 800;
         this.referenceNum = reference;
-        reference++;
-    }
+    reference++;
+}
 
     public Plateform(int x, int y){
         this.x = x;
@@ -43,12 +43,28 @@ public class Plateform {
         return height;
     }
 
-    public int maxSpawnheight(Plateform other){
+    public int maxSpawnheightprevious(Plateform other){
         return other.getY() - 50;
     }
 
-    public int minSpwanheight(Plateform other){
+    public int minSpawnheightprevious1(Plateform other){
         return other.getY() - 10;
+    }
+
+    public int xAxisPrevious(Plateform other) {
+        double y = Math.random();
+        if (y < 0.5) {
+            y = -1;
+        }
+        else{
+            y = 1;
+        }
+        int xValue = (int) ((Math.random() * 40* y) + other.getX());
+        while (xValue < 0 || xValue > 400- this.length){
+            xValue = (int) ((Math.random() * 40* y) + other.getX());
+        }
+
+      return xValue;
     }
 
     public int referencingPlateform (){
@@ -56,16 +72,16 @@ public class Plateform {
     }
 
     public int randomHeight (Plateform other){
-        return this.minSpwanheight(other) - ((int) (Math.random()*(this.minSpwanheight(other) - this.maxSpawnheight(other))));
+        return this.minSpawnheightprevious1(other) - ((int) (Math.random()*(this.minSpawnheightprevious1(other) - this.maxSpawnheightprevious(other))));
     }
 
-    public int setRandomXAxis (){
-        return (int)(Math.random()*370);
+    public int setRandomXAxis (Plateform other){
+        return xAxisPrevious(other);
     }
 
     public Plateform spawn (Plateform other){
-        return new Plateform(10, randomHeight(other));
-//        return new Plateform(setRandomXAxis(), randomHeight(other));
+
+        return new Plateform(setRandomXAxis(other), randomHeight(other));
     }
     public int getReferenceNum(){
         return referenceNum;
@@ -100,3 +116,4 @@ public class Plateform {
         System.out.println(AllXAxis());
     }
 }
+
