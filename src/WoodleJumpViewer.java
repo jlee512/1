@@ -34,6 +34,8 @@ public class WoodleJumpViewer extends JPanel implements ActionListener, KeyListe
 
         platforms = Plateform.AllXAxis();
 
+        this.addKeyListener(this);
+
         timer.start();
     }
 
@@ -69,9 +71,10 @@ public class WoodleJumpViewer extends JPanel implements ActionListener, KeyListe
                 System.out.println(lose);
                 timer.stop();
             }
+            System.out.println(platformID);
         }
-
-    repaint();
+        requestFocusInWindow();
+        repaint();
         if(person.isOnNextPlatform() && !(person.isReducePlatformID())) {
             platformID++;
             System.out.println("Platform Id: " + platformID);
@@ -95,11 +98,31 @@ public class WoodleJumpViewer extends JPanel implements ActionListener, KeyListe
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        int keyCode = e.getKeyCode();
+            switch (keyCode){
+                case KeyEvent.VK_LEFT:
+                    if(person.getDeltaX() <= 0) {
+                        person.setDeltaX(-10);
+                        break;
+                    }
+                    else {
+                        person.setDeltaX(-10);
+                        break;
+                    }
+                case KeyEvent.VK_RIGHT:
+                    if(person.getDeltaX() >= 0) {
+                        person.setDeltaX(10);
+                        break;
+                    }
+                    else {
+                        person.setDeltaX(10);
+                        break;
+                    }
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        person.setDeltaX(0);
     }
 }
