@@ -20,8 +20,8 @@ public class Person {
     private int deltaY = INITIAL_DELTA_Y;
 
     //Constants (initial vertical speed and gravity
-    public static final int INITIAL_DELTA_Y = 10;
-    public static final int GRAVITY = 1;
+    public static final int INITIAL_DELTA_Y = 25;
+    public static final int GRAVITY = 4;
 
 
     //Constructor
